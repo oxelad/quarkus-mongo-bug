@@ -1,0 +1,1 @@
+Project with test case for https://github.com/quarkusio/quarkus/issues/13236
