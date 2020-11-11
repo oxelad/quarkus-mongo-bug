@@ -19,6 +19,8 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTest
 public class SomeServiceIT {
 	private static final String DOC_ID = "abcdef";
+	private static final String AMOUNT = "21.01";
+
 	@Inject
 	private SomeService target;
 
@@ -26,7 +28,7 @@ public class SomeServiceIT {
 	private MongoClient client;
 
 	private void setup() {
-		final String strDoc = "{ \"_id\": \"" + DOC_ID + "\", \"data\":\"21.01\" }";
+		final String strDoc = "{ \"_id\": \"" + DOC_ID + "\", \"data\":\"" + AMOUNT + "\" }";
 		final InsertOneResult res =
 			client.getDatabase("somedb")
 				.getCollection("somecollection").withWriteConcern(WriteConcern.MAJORITY)
@@ -36,10 +38,9 @@ public class SomeServiceIT {
 
 	@Test
 	public void getById() {
-		System.out.println(">>>> TEST <<<<<");
 		setup();
 
 		final SomeEntity e = target.getEntityById(DOC_ID);
-		assertEquals(e.getData(), new BigDecimal("21.01"));
+		assertEquals(e.getData(), new BigDecimal(AMOUNT));
 	}
 }
